@@ -50,10 +50,15 @@ class ArticleResource extends Resource
 
                         Forms\Components\Section::make('封面')
                             ->schema([
-                                Forms\Components\FileUpload::make('image')
-                                    ->label('Image')
+                                Forms\Components\FileUpload::make('thumbnail')
+                                    ->label('Thumbnail')
+                                    ->disableLabel()
                                     ->image()
-                                    ->disableLabel(),
+                                    ->imageResizeMode('cover')
+                                    ->imageCropAspectRatio('16:9')
+                                    ->imageResizeTargetWidth('1280')
+                                    ->imageResizeTargetHeight('720')
+                                    ->directory('thumbnails')
                             ])
                             ->collapsible(),
                     ])
@@ -110,6 +115,9 @@ class ArticleResource extends Resource
                 Tables\Columns\TextColumn::make('id')
                     ->label('ID')
                     ->sortable(),
+
+                Tables\Columns\ImageColumn::make('thumbnail')
+                    ->label('Thumbnail'),
 
                 Tables\Columns\TextColumn::make('title')
                     ->label(__('fields.title'))
