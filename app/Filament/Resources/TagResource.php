@@ -25,6 +25,8 @@ class TagResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-tag';
 
+    protected static ?int $navigationSort = 3;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -65,5 +67,10 @@ class TagResource extends Resource
         return [
             'index' => Pages\ManageTags::route('/'),
         ];
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('labels.tags');
     }
 }
