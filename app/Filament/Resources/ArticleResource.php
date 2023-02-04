@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ArticleResource\Pages;
+use App\Filament\Resources\ArticleResource\Widgets\ArticleOverview;
 use App\Models\Article;
 use App\Models\Category;
 use Filament\Forms;
@@ -168,6 +169,13 @@ class ArticleResource extends Resource
     {
         return [
             //
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            ArticleOverview::class,
         ];
     }
 
