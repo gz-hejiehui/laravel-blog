@@ -11,7 +11,12 @@ class Article extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title', 'slug', 'author_id', 'category_id', 'markdown_body', 'html_body',
+        'title', 'author_id', 'category_id', 'tags', 'content', 'published_at',
+    ];
+
+    protected $casts = [
+        'published_at' => 'datetime',
+        'tags' => 'array',
     ];
 
     public function author(): BelongsTo
@@ -21,6 +26,6 @@ class Article extends Model
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'category_id');
+        return $this->belongsTo(Category::class, 'category_id');
     }
 }

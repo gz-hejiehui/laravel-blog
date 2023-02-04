@@ -16,11 +16,11 @@ class CreateArticlesTable extends Migration
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('slug');
-            $table->text('markdown_body');
-            $table->text('html_body');
+            $table->longText('content');
             $table->unsignedBigInteger('author_id');
             $table->unsignedBigInteger('category_id');
+            $table->json('tags')->nullable();
+            $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });
     }
