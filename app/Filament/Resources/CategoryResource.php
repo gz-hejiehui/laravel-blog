@@ -31,16 +31,52 @@ class CategoryResource extends Resource
     {
         return $form
             ->schema([
-                //
-            ]);
+                Forms\Components\Card::make()
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->label(__('fields.name'))
+                            ->required()
+                            ->maxLength(32),
+
+                        Forms\Components\TextInput::make('slug')
+                            ->label(__('fields.slug'))
+                            ->required()
+                            ->maxLength(32)
+                            ->alphaDash()
+                            ->unique(Category::class, 'slug', ignoreRecord: true)
+                            ->disabled(fn (?Category $record) => $record !== null && $record->id === 1),
+
+                        Forms\Components\Textarea::make('description')
+                            ->label(__('fields.description'))
+                            ->columnSpanFull()
+                            ->maxLength(120)
+                            ->required(),
+                    ])
+                    ->columnSpan(['lg' => fn (?Category $record) => $record === null ? 3 : 2]),
+                Forms\Components\Card::make()
+                    ->schema([
+                        Forms\Components\Placeholder::make('created_at')
+                            ->label('Created at')
+                            ->content(fn (Category $record): ?string => $record->created_at?->diffForHumans()),
+
+                        Forms\Components\Placeholder::make('updated_at')
+                            ->label('Last modified at')
+                            ->content(fn (Category $record): ?string => $record->updated_at?->diffForHumans()),
+                    ])
+                    ->columnSpan(['lg' => 1])
+                    ->hidden(fn (?Category $record) => $record === null),
+            ])
+            ->columns(3);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')->label('ID')->sortable(),
                 Tables\Columns\TextColumn::make('name')->label(__('fields.name')),
                 Tables\Columns\TextColumn::make('slug')->label(__('fields.slug')),
+                Tables\Columns\TextColumn::make('updated_at')->label(__('fields.updated_at'))->date()->sortable(),
             ])
             ->filters([
                 //
@@ -49,7 +85,7 @@ class CategoryResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                // 
             ]);
     }
 
