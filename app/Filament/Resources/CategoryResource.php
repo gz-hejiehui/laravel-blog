@@ -3,15 +3,12 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CategoryResource\Pages;
-use App\Filament\Resources\CategoryResource\RelationManagers;
 use App\Models\Category;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CategoryResource extends Resource
 {
@@ -34,12 +31,12 @@ class CategoryResource extends Resource
                 Forms\Components\Card::make()
                     ->schema([
                         Forms\Components\TextInput::make('name')
-                            ->label(__('fields.name'))
+                            ->label(__('blog.category.form.name'))
                             ->required()
                             ->maxLength(32),
 
                         Forms\Components\TextInput::make('slug')
-                            ->label(__('fields.slug'))
+                            ->label(__('blog.category.form.slug'))
                             ->required()
                             ->maxLength(32)
                             ->alphaDash()
@@ -47,7 +44,7 @@ class CategoryResource extends Resource
                             ->disabled(fn (?Category $record) => $record !== null && $record->id === 1),
 
                         Forms\Components\Textarea::make('description')
-                            ->label(__('fields.description'))
+                            ->label(__('blog.category.form.description'))
                             ->columnSpanFull()
                             ->maxLength(120)
                             ->required(),
@@ -56,11 +53,11 @@ class CategoryResource extends Resource
                 Forms\Components\Card::make()
                     ->schema([
                         Forms\Components\Placeholder::make('created_at')
-                            ->label('Created at')
+                            ->label(__('blog.common.created_at'))
                             ->content(fn (Category $record): ?string => $record->created_at?->diffForHumans()),
 
                         Forms\Components\Placeholder::make('updated_at')
-                            ->label('Last modified at')
+                            ->label(__('blog.common.updated_at'))
                             ->content(fn (Category $record): ?string => $record->updated_at?->diffForHumans()),
                     ])
                     ->columnSpan(['lg' => 1])
@@ -73,10 +70,21 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')->label('ID')->sortable(),
-                Tables\Columns\TextColumn::make('name')->label(__('fields.name')),
-                Tables\Columns\TextColumn::make('slug')->label(__('fields.slug')),
-                Tables\Columns\TextColumn::make('updated_at')->label(__('fields.updated_at'))->date()->sortable(),
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('name')
+                    ->label(__('blog.category.table.name'))
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('slug')
+                    ->label(__('blog.category.table.slug')),
+
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__('blog.common.updated_at'))
+                    ->date()
+                    ->sortable(),
             ])
             ->filters([
                 //
@@ -107,6 +115,6 @@ class CategoryResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('labels.categories');
+        return __('blog.category.label');
     }
 }
