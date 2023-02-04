@@ -68,4 +68,9 @@ class TagResource extends Resource
             'index' => Pages\ManageTags::route('/'),
         ];
     }
+
+    public static function getModelLabel(): string
+    {
+        return __('labels.tags');
+    }
 }

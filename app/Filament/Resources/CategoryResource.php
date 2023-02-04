@@ -68,4 +68,9 @@ class CategoryResource extends Resource
             'edit' => Pages\EditCategory::route('/{record}/edit'),
         ];
     }
+
+    public static function getModelLabel(): string
+    {
+        return __('labels.categories');
+    }
 }
