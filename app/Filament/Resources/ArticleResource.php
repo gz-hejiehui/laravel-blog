@@ -117,7 +117,8 @@ class ArticleResource extends Resource
                     ->sortable(),
 
                 Tables\Columns\ImageColumn::make('thumbnail')
-                    ->label(__('blog.article.table.thumbnail')),
+                    ->label(__('blog.article.table.thumbnail'))
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('title')
                     ->label(__('blog.article.table.title'))

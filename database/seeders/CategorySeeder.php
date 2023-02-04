@@ -21,7 +21,6 @@ class CategorySeeder extends Seeder
             [
                 'name' => 'Uncategorized',
                 'description' => 'Uncategorized',
-                'parent_id' => null,
             ]
         );
     }
