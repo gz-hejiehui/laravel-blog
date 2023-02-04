@@ -19,8 +19,8 @@ class CategorySeeder extends Seeder
                 'slug' => 'uncategorized',
             ],
             [
-                'name' => __('slugs.uncategorized'),
-                'description' => __('slugs.uncategorized'),
+                'name' => 'Uncategorized',
+                'description' => 'Uncategorized',
                 'parent_id' => null,
             ]
         );

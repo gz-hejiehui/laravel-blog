@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ArticleResource\Pages;
-use App\Filament\Resources\ArticleResource\RelationManagers;
 use App\Models\Article;
 use App\Models\Category;
 use Filament\Forms;
@@ -11,8 +10,6 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ArticleResource extends Resource
 {
@@ -34,24 +31,24 @@ class ArticleResource extends Resource
             ->schema([
                 Forms\Components\Group::make()
                     ->schema([
-                        Forms\Components\Section::make('文章')
+                        Forms\Components\Section::make(__('blog.article.section.article'))
                             ->schema([
                                 Forms\Components\TextInput::make('title')
-                                    ->label(__('fields.title'))
+                                    ->label(__('blog.article.form.title'))
                                     ->required()
                                     ->maxLength(120)
                                     ->disableAutocomplete(),
 
                                 Forms\Components\MarkdownEditor::make('content')
-                                    ->label(__('fields.content'))
+                                    ->label(__('blog.article.form.content'))
                                     ->required()
                                     ->maxLength(2000),
                             ]),
 
-                        Forms\Components\Section::make('封面')
+                        Forms\Components\Section::make(__('blog.article.section.thumnnail'))
                             ->schema([
                                 Forms\Components\FileUpload::make('thumbnail')
-                                    ->label('Thumbnail')
+                                    ->label(__('blog.article.form.thumbnail'))
                                     ->disableLabel()
                                     ->image()
                                     ->imageResizeMode('cover')
@@ -66,36 +63,39 @@ class ArticleResource extends Resource
 
                 Forms\Components\Group::make()
                     ->schema([
-                        Forms\Components\Section::make('相关')
+                        Forms\Components\Section::make(__('blog.article.section.about'))
                             ->schema([
                                 Forms\Components\Select::make('author_id')
-                                    ->label(__('fields.author'))
+                                    ->label(__('blog.article.form.author'))
                                     ->relationship('author', 'name')
                                     ->preload()
                                     ->searchable()
                                     ->required()
                                     ->default(auth()->user()->id),
+
                                 Forms\Components\Select::make('category_id')
-                                    ->label(__('fields.category'))
+                                    ->label(__('blog.article.form.category'))
                                     ->relationship('category', 'name')
                                     ->preload()
                                     ->searchable()
                                     ->required()
                                     ->default(Category::query()->firstWhere('slug', 'uncategorized')->id),
+
                                 Forms\Components\TagsInput::make('tags')
-                                    ->label(__('fields.tags')),
+                                    ->label(__('blog.article.form.tag')),
+
                                 Forms\Components\DateTimePicker::make('published_at')
-                                    ->label(__('fields.published_at')),
+                                    ->label(__('blog.article.form.published_at')),
                             ]),
 
                         Forms\Components\Card::make()
                             ->schema([
                                 Forms\Components\Placeholder::make('created_at')
-                                    ->label('Created at')
+                                    ->label(__('blog.common.created_at'))
                                     ->content(fn (Article $record): ?string => $record->created_at?->diffForHumans()),
 
                                 Forms\Components\Placeholder::make('updated_at')
-                                    ->label('Last modified at')
+                                    ->label(__('blog.common.updated_at'))
                                     ->content(fn (Article $record): ?string => $record->updated_at?->diffForHumans()),
                             ])
                             ->hidden(fn (?Article $record) => $record === null),
@@ -117,34 +117,38 @@ class ArticleResource extends Resource
                     ->sortable(),
 
                 Tables\Columns\ImageColumn::make('thumbnail')
-                    ->label('Thumbnail'),
+                    ->label(__('blog.article.table.thumbnail')),
 
                 Tables\Columns\TextColumn::make('title')
-                    ->label(__('fields.title'))
+                    ->label(__('blog.article.table.title'))
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('author.name')
+                    ->label(__('blog.article.table.author'))
                     ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\BadgeColumn::make('category.name')
+                    ->label(__('blog.article.table.category'))
                     ->searchable()
                     ->sortable()
                     ->toggleable(),
 
                 Tables\Columns\TagsColumn::make('tags')
+                    ->label(__('blog.article.table.tag'))
                     ->searchable()
                     ->toggleable(),
 
                 Tables\Columns\BadgeColumn::make('status')
+                    ->label(__('blog.article.table.status'))
                     ->getStateUsing(fn (Article $record): string => $record->published_at?->isPast() ? 'Published' : 'Draft')
                     ->colors([
                         'success' => 'Published',
                     ]),
 
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label(__('fields.updated_at'))
+                    ->label(__('blog.common.updated_at'))
                     ->date()
                     ->sortable(),
             ])
@@ -177,6 +181,6 @@ class ArticleResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('labels.articles');
+        return __('blog.article.label');
     }
 }
