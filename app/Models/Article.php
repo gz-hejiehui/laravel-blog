@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
 
 class Article extends Model
 {
@@ -20,6 +21,17 @@ class Article extends Model
         'published_at' => 'datetime',
         'tags' => 'array',
     ];
+
+    /**
+     * 缩略图 Url
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getThumbnailUrlAttribute($value)
+    {
+        return Storage::url($this->thumbnail);
+    }
 
     public function author(): BelongsTo
     {
