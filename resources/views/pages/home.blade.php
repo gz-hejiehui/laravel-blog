@@ -1,7 +1,7 @@
 @extends('base')
 
 @section('main-content')
-<main id="top" class="container mt-5 pt-4">
+<main class="container mt-5">
     <div class="p-4 p-md-5 mb-4 text-white rounded bg-dark">
         <div class="col-md-6 px-0">
             <h1 class="display-4 fst-italic">{{ config('app.name', 'Laravel') }}</h1>

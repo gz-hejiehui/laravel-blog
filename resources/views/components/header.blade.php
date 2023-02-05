@@ -1,4 +1,4 @@
-<header class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
+<header id="top" class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
         <a href="../" class="navbar-brand">{{ config('app.name', 'Laravel') }}</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
