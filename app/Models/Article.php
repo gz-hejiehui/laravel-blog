@@ -30,7 +30,7 @@ class Article extends Model
      */
     public function getThumbnailUrlAttribute($value)
     {
-        return Storage::url($this->thumbnail);
+        return $this->thumbnail ? Storage::url($this->thumbnail) : "https://via.placeholder.com/1280x720";
     }
 
     public function author(): BelongsTo

@@ -7,6 +7,7 @@ use App\Models\Menu;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class HomeController extends Controller
 {
@@ -48,6 +49,6 @@ class HomeController extends Controller
         return Article::query()
             ->with(['author', 'category'])
             ->latest('id')
-            ->paginate(32);
+            ->paginate(12);
     }
 }

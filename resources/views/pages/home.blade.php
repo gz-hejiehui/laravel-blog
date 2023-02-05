@@ -15,22 +15,26 @@
     <div class="row mb-5 gx-4 gy-5">
         @foreach ($articles as $article )
         <div class="col-sm-4">
-            <article id="article-{{ $article->id }}">
+            <article id="article-{{ $article->id }}" class="article-card">
                 <div class="card p-1">
-                    <img src="{{ $article->thumbnail_url }}" alt="{{ $article->title }}">
-                    
+                    <img src="{{ $article->thumbnail_url }}" alt="{{ $article->title }}" class="article-thumbnail">
+
                     <div class="card-body p-1">
                         <div class="card-text-fade-out">
                             <h3 class="card-title mt-2">
-                                <a href="/" title="{{ $article->title }}">
+                                <a href="/" title="{{ $article->title }}" class="article-title">
+                                    <i class="bi bi-signpost"></i>
                                     {{ $article->title }}
                                 </a>
                             </h3>
-                            <p class="card-text">
+                            <p class="card-text article-description">
                                 {{ Str::limit($article->content, 150, '...') }}
                             </p>
                             <div class="text-end">
-                                <a class="btn btn-success btn-sm" href="#">阅读全文</a>
+                                <a class="btn btn-success btn-sm" href="#">
+                                    阅读全文
+                                    <i class="bi bi-eyeglasses"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -49,6 +53,8 @@
             </article>
         </div>
         @endforeach
+
+        {{ $articles->withQueryString()->links() }}
     </div>
 
 </main>
