@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
-use App\Models\Menu;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 class HomeController extends Controller
 {
@@ -20,23 +17,8 @@ class HomeController extends Controller
     public function __invoke(Request $request)
     {
         return view('pages.home', [
-            'menuItems' => $this->getMenuItems(),
             'articles' => $this->getArticles(),
         ]);
-    }
-
-    /**
-     * 获取菜单
-     *
-     * @return Collection
-     */
-    private function getMenuItems(): Collection
-    {
-        return Menu::query()
-            ->with('children')
-            ->whereNull('parent_id')
-            ->orderBy('order')
-            ->get();
     }
 
     /**

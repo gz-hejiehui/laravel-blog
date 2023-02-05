@@ -7,7 +7,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav me-auto">
-                @foreach ($menuItems as $menuItem)
+                @foreach ($menu as $menuItem)
                 @if ($menuItem->children->count())
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
