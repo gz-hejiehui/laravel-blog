@@ -21,31 +21,23 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav me-auto">
-          <li class="nav-item">
-            <a class="nav-link active" href="#">首页
-              <span class="visually-hidden">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Features</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Pricing</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
-          </li>
+          @foreach ($menuItems as $menuItem)
+          @if ($menuItem->children->count())
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true"
-              aria-expanded="false">Dropdown</a>
+              aria-expanded="false">{{ $menuItem->name }}</a>
             <div class="dropdown-menu">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Separated link</a>
+              @foreach ($menuItem->children as $children)
+              <a class="dropdown-item" href="{{ $menuItem->url }}">{{ $children->name }}</a>
+              @endforeach
             </div>
           </li>
+          @else
+          <li class="nav-item">
+            <a class="nav-link @if ($loop->first) active @endif" href="{{ $menuItem->url }}">{{ $menuItem->name }}</a>
+          </li>
+          @endif
+          @endforeach
         </ul>
         <form class="d-flex">
           <input class="form-control me-sm-2" type="search" placeholder="Search">

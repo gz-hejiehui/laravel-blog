@@ -55,7 +55,7 @@ class MenuResource extends Resource
                     ->label(__('config.menu.form.parent'))
                     ->options(function (?Menu $record) {
                         $query = $record ? Menu::query()->where('id', '<>', $record->id) : Menu::all();
-                        return $query->pluck('name', 'id');
+                        return $query->whereNull('parent_id')->pluck('name', 'id');
                     })
                     ->searchable(),
 
